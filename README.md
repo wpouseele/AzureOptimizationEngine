@@ -319,8 +319,9 @@ An example of the content of such silent deployment file is:
     "WorkspaceName": "<<ExistingName>>",                            // mandatory if workspaceReuse is set to 'n', otherwise optional
     "WorkspaceResourceGroupName": "<<ExistingName>>",               // mandatory if workspaceReuse is set to 'n', otherwise optional
     "DeployWorkbooks": "y",                                         // mandatory, y/n, y = deploy the workbooks, n = don't deploy the workbooks
-    "SqlAdmin": "<<sqlaAdmin>>",                                    // mandatory
-    "SqlPass": "<<sqlPass>>",                                       // mandatory
+    "SqlAuth": "server",                                            // mandatory, server/mi, server = SQL Server authentication, mi = Managed Identity authentication
+    "SqlAdmin": "<<sqlaAdmin>>",                                    // mandatory, if SqlAuth is set to 'server'
+    "SqlPass": "<<sqlPass>>",                                       // mandatory, if SqlAuth is set to 'server'
     "TargetLocation": "westeurope",                                 // mandatory
     "DeployBenefitsUsageDependencies": "y",                         // mandatory, y/n, deploy the dependencies for the Azure Benefits usage workbooks (EA/MCA customers only + agreement administrator role required
     "CustomerType": "MCA",                                          // mandatory if DeployBenefitsUsageDependencies is set to 'y', MCA/EA

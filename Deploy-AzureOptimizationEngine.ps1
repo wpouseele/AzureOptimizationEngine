@@ -119,13 +119,16 @@ if(-not([string]::IsNullOrEmpty($SilentDeploymentSettingsPath)) -and (Test-Path 
         {
             throw "AutomationAccountName is required for silent deployment when NamePrefix is set to 'EmptyNamePrefix'."
         }
-        if (-not($deploymentOptions["SqlServerName"]))
+        if ($deploymentOptions["SqlAuth"] -eq "server")
         {
-            throw "SqlServerName is required for silent deployment when NamePrefix is set to 'EmptyNamePrefix'."
-        }
-        if (-not($deploymentOptions["SqlDatabaseName"]))
-        {
-            throw "SqlDatabaseName is required for silent deployment when NamePrefix is set to 'EmptyNamePrefix'."
+            if (-not($deploymentOptions["SqlServerName"]))
+            {
+                throw "SqlServerName is required for silent deployment when NamePrefix is set to 'EmptyNamePrefix'."
+            }
+            if (-not($deploymentOptions["SqlDatabaseName"]))
+            {
+                throw "SqlDatabaseName is required for silent deployment when NamePrefix is set to 'EmptyNamePrefix'."
+            }
         }
     }
     if (-not($deploymentOptions["WorkspaceReuse"]) -or ($deploymentOptions["WorkspaceReuse"] -ne "y" -and $deploymentOptions["WorkspaceReuse"] -ne "n"))
@@ -147,13 +150,20 @@ if(-not([string]::IsNullOrEmpty($SilentDeploymentSettingsPath)) -and (Test-Path 
     {
         throw "DeployWorkbooks set to 'y' or 'n' is required for silent deployment."
     }
-    if (-not($deploymentOptions["SqlAdmin"]))
+    if (-not($deploymentOptions["SqlAuth"]) -or ($deploymentOptions["SqlAuth"] -ne "server" -and $deploymentOptions["SqlAuth"] -ne "mi"))
     {
-        throw "SqlAdmin is required for silent deployment."
+        throw "SqlAuth set to 'server' or 'mi' is required for silent deployment."
     }
-    if (-not($deploymentOptions["SqlPass"]))
+    if ($deploymentOptions["SqlAuth"] -eq "server")
     {
-        throw "SqlPass is required for silent deployment."
+        if (-not($deploymentOptions["SqlAdmin"]))
+        {
+            throw "SqlAdmin is required for silent deployment."
+        }
+        if (-not($deploymentOptions["SqlPass"]))
+        {
+            throw "SqlPass is required for silent deployment."
+        }
     }
     if (-not($deploymentOptions["TargetLocation"]))
     {
